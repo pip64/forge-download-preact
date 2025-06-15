@@ -23,20 +23,18 @@ export default function () {
                     .map(el => el.textContent)
                     .filter(v => /^\d+\.\d+(\.\d+)?-\d+\.\d+\.\d+$/.test(v))
 
-                const formatted = await Promise.all(
-                    versions.map(async (version) => {
-                        const fileName = `forge-${version}-installer.jar`;
-                        const downloadUrl = `https://maven.minecraftforge.net/net/minecraftforge/forge/${version}/${fileName}`;
+                const formatted = versions.map(version => {
+                    const fileName = `forge-${version}-installer.jar`;
+                    const downloadUrl = `https://maven.minecraftforge.net/net/minecraftforge/forge/${version}/${fileName}`;
 
-                        return {
-                            id: version,
-                            displayName: version,
-                            fileName,
-                            downloadUrl,
-                            download: () => installForgeVersion(version, fileName),
-                        };
-                    })
-                );
+                    return {
+                        id: version,
+                        displayName: version,
+                        fileName,
+                        downloadUrl,
+                        download: () => installForgeVersion(version, fileName),
+                    };
+                })
 
                 setData(formatted.filter(Boolean));
             } catch (err) {
